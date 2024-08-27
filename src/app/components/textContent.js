@@ -3,7 +3,7 @@ import React from "react";
 const TextContent = () => {
   return (
     <>
-      <section className="bg-[#FFF8F1] block sm:flex items-center justify-between w-full py-4 px-2 sm:p-14">
+      <section className="bg-[#FFF8F1] block sm:flex items-center justify-between w-full py-4 px-2 sm:p-14 -mt-4 pt-0 sm:pt-0">
         <div className="block sm:flex items-start flex-col w-full sm:w-2/5 p-5 pl-2 sm:pl-10 ml-0 sm:ml-5 h-auto sm:h-[270px]">
           <h2 className="text-xl text-orange-600 uppercase ml-1 text-left sm:text-center">About Us</h2>
           <p className="my-2 uppercase text-[28px] sm:text-5xl m-0">

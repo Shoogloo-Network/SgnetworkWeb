@@ -8,7 +8,7 @@ const WithUs = () => {
 
   return (
     <>
-      <div className="relative flex justify-between items-center p-10  overflow-x-hidden min-h-screen">
+      <div className="relative flex justify-between items-center p-10 overflow-x-hidden min-h-screen">
         <div className="w-full leading-7 flex items-center justify-center text-center flex-col mx-10 py-10">
           <h2 className="text-5xl font-light capitalize w-3/4 mb-3 leading-[4rem] min-h-32">
             <span className="">What we promise to provide you</span>

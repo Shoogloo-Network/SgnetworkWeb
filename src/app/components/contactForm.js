@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from 'react'
+import React, { useState,useEffect } from 'react'
 import Image from "next/image";
 import { motion, useMotionValue, useTransform, animate } from "framer-motion";
 import { publisher, callicon, mapicon, messageicon, ContactIcon } from "../../../public/assets/images";
@@ -12,7 +12,9 @@ import {
   publishers5,
   publishersBg,
 } from "../../../public/assets/images";
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import axios from 'axios';
 const images = [
   publishers1,
   publishers2,
@@ -34,17 +36,104 @@ const ContactForm = () => {
     baseText.slice(0, latest)
   );
   
-  useEffect(() => {
-    const controls = animate(count, baseText.length, {
-      type: "tween",
-      duration: 2,
-      ease: "easeInOut",
-      repeat: Infinity,
-    });
-    return controls.stop;
-  }, []);
+  // useEffect(() => {
+  //   const controls = animate(count, baseText.length, {
+  //     type: "tween",
+  //     duration: 2,
+  //     ease: "easeInOut",
+  //     repeat: Infinity,
+  //   });
+  //   return controls.stop;
+  // }, []);
+
+  const initial = {
+    firstname: '',
+    lastname:'',
+    email: '',
+    phone: '',
+    content:'',
+   
+  }
+  const initialerror = {
+    firstname: false,
+    lastname: false,
+    email: false,
+    phone:false,
+    content:false
+}
+const [data,setData]=useState(initial)
+const [error,setError]=useState(initialerror);
+const inputHandler=(e)=>{
+    setData({...data,[e.target.name]:e.target.value})
+    console.log(data);
+}
+const errorHandler=(e)=>{
+  if (e.target.name === 'email') {
+    const emailPattern = /\S+@\S+\.\S+/;
+    if (!emailPattern.test(e.target.value)) {
+      setError({ ...error, [e.target.name]: true });
+    } else {
+      setError({ ...error, [e.target.name]: 'valid' });
+    }
+  } else {
+    if (e.target.value) {
+      setError({ ...error, [e.target.name]: 'valid' });
+    } else {
+      setError({ ...error, [e.target.name]: true });
+    }
+  }
+}
+
+const submit=async()=>{
+  console.log("request send")
+  try{
+  const {
+    firstname,
+    lastname,
+    email,
+    phone,
+    content
+  }=data;
+  
+  if(firstname!== '' && lastname!== '' && email!== '' &&  email.includes('@') && phone!== '' && content!==''){
+    const result=await axios({
+      url:`https://api.shoogloonetwork.com/contact/create`,
+      method:"POST",
+      data:data,
+      header:{
+        'Content-Type':"application/json"
+      }
+    })
+    console.log(result)
+    if(result.status==200){
+      toast.success("Thank You for your query. We will connect with you soon");
+      setData(initial)
+    }
+    else{
+      toast.error("Not Submitted")
+    }
+  }
+  else{
+    Object.keys(data).forEach((fieldname)=>{
+        if(data[fieldname].trim()===''){
+          setError((error)=>({
+            ...error,[fieldname]:true
+          }))
+        }
+    })
+
+    toast.error("Please fill all the required fields")
+  }
+  }
+  catch(error){
+    toast.error("Not Submitted")
+  }
+
+}
+
   return (
     <>
+    <ToastContainer />
       <div className="relative block sm:flex justify-between items-center p-4 sm:p-16 pb-0 sm:pb-10 overflow-x-hidden  mb-0 bg-[#fff8f1]">
         <Image
           className="absolute top-2 sm:top-10 max-w-[90%] sm:max-w-[100%]"
@@ -109,7 +198,7 @@ const ContactForm = () => {
               </div>
 
             </div>
-              <div className='flex gap-5 hidden'>
+              {/* <div className='flex gap-5 hidden'>
                 <Image
                   className=""
                   src={mapicon}
@@ -122,7 +211,7 @@ const ContactForm = () => {
                   <p className='font-bold te underline'>www.shoogloo.com</p>
                 </div>
 
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
@@ -140,60 +229,69 @@ const ContactForm = () => {
           >
             <div>
               <h3 className='text-white text-2xl py-7'>Leave a message</h3>
-              <form action="">
+           
                 <div className='flex gap-3'>
                   <div className="mb-4 w-1/2">
+                  {(error.firstname!=="valid" && error.firstname==true)?<span className='text-[#FF0000]'>First name is mandatory</span>:null}
                     <input
                       className="shadow appearance-none border rounded-xl w-full py-4 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                      id="name"
+                      name="firstname"
                       type="text"
-                      placeholder="First Name"
+                      value={data.firstname}
+                      placeholder="First Name *"
+                      onChange={(e)=>inputHandler(e)} onBlur={(e)=>errorHandler(e)} 
                     />
                   </div>
 
                   <div className="mb-4 w-1/2">
-
+                  {(error.lastname!=="valid" && error.lastname==true)?<span className='text-[#FF0000]'>Last name is mandatory</span>:null}
                     <input
                       className="shadow appearance-none border rounded-xl w-full py-4 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                      id="email"
-                      type="email"
-                      placeholder="Last Name"
+                      name="lastname"
+                      type="text"
+                      value={data.lastname}
+                      placeholder="Last Name *"
+                      onChange={(e)=>inputHandler(e)} onBlur={(e)=>errorHandler(e)} 
                     />
                   </div>
                 </div>
 
 
                 <div className="mb-4">
-
+                {(error.phone!=="valid" && error.phone==true)?<span className='text-[#FF0000]'>Mobile number is mandatory</span>:null}
                   <input
                     className="shadow appearance-none border rounded-xl w-full py-4 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    id="password"
-                    type="password"
-                    placeholder="Mobile Number"
+                    name="phone"
+                    type="number"
+                    value={data.phone}
+                    placeholder="Mobile Number *"
+                    onChange={(e)=>inputHandler(e)} onBlur={(e)=>errorHandler(e)} 
                   />
                 </div>
 
                 <div className="mb-4">
-
-                  <input
+                {(error.email!=="valid" && error.email==true)?<span className='text-[#FF0000]'>Email is mandatory with @</span>:null}                  
+                <input
                     className="shadow appearance-none border rounded-xl w-full py-4 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    id="confirmPassword"
-                    type="password"
-                    placeholder="Email*"
+                    name="email"
+                    type="email"
+                    value={data.email}
+                    placeholder="Email *"
+                    onChange={(e)=>inputHandler(e)} onBlur={(e)=>errorHandler(e)} 
                   />
                 </div>
                 <div className="mb-4">
-
-                  <textarea placeholder='Message Here' className='shadow appearance-none border rounded-xl w-full py-4 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline' rows="6" cols="50"></textarea>
+                {(error.content!=="valid" && error.content==true)?<span className='text-[#FF0000]'>Description is mandatory</span>:null}                  
+                <textarea placeholder='Message Here *' className='shadow appearance-none border rounded-xl w-full py-4 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline' rows="6" cols="50" onChange={(e)=>inputHandler(e)} onBlur={(e)=>errorHandler(e)} name="content" value={data.content}></textarea>
                 </div>
 
                 <button
                   className="bg-[#e55b02] hover:bg[#e55b02] text-white font-bold py-3 px-14 rounded-xl focus:outline-none focus:shadow-outline" style={{ borderRadius: "30px" }}
-                  type="submit"
+                 onClick={submit}
                 >
                   Submit
                 </button>
-              </form>
+              
             </div>
           </ul>
         </motion.div>
@@ -212,60 +310,71 @@ const ContactForm = () => {
           >
             <div>
               <h3 className='text-white text-[18px] sm:text-2xl py-4 text-center'>Leave a message</h3>
-              <form action="">
+
                 <div className='flex gap-3'>
                   <div className="mb-4">
+                  {(error.firstname!=="valid" && error.firstname==true)?<span className='text-[#FF0000]'>First name is mandatory</span>:null}
+
                     <input
                       className="shadow appearance-none border rounded-xl w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                      id="name"
+                      name="firstname"
                       type="text"
-                      placeholder="First Name"
+                      value={data.firstname}
+                      placeholder="First Name *"
+                      onChange={(e)=>inputHandler(e)} onBlur={(e)=>errorHandler(e)} 
                     />
                   </div>
 
                   <div className="mb-4">
-
+                  {(error.lastname!=="valid" && error.lastname==true)?<span className='text-[#FF0000]'>Last name is mandatory</span>:null}
                     <input
                       className="shadow appearance-none border rounded-xl w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                      id="email"
-                      type="email"
-                      placeholder="Last Name"
+                      name="lastname"
+                      type="text"
+                      value={data.lastname}
+                      placeholder="Last Name *"
+                      onChange={(e)=>inputHandler(e)} onBlur={(e)=>errorHandler(e)} 
                     />
                   </div>
                 </div>
 
 
                 <div className="mb-4">
-
+                {(error.phone!=="valid" && error.phone==true)?<span className='text-[#FF0000]'>Mobile number is mandatory</span>:null}
                   <input
                     className="shadow appearance-none border rounded-xl w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    id="password"
-                    type="password"
-                    placeholder="Mobile Number"
+                    name="phone"
+                    type="number"
+                    value={data.phone}
+                    placeholder="Mobile Number *"
+                    onChange={(e)=>inputHandler(e)} onBlur={(e)=>errorHandler(e)} 
                   />
                 </div>
 
                 <div className="mb-4">
+                {(error.email!=="valid" && error.email==true)?<span className='text-[#FF0000]'>Email is mandatory with @</span>:null} 
 
                   <input
                     className="shadow appearance-none border rounded-xl w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    id="confirmPassword"
-                    type="password"
-                    placeholder="Email*"
+                    name="email"
+                    type="email"
+                    value={data.email}
+                    placeholder="Email *"
+                    onChange={(e)=>inputHandler(e)} onBlur={(e)=>errorHandler(e)} 
                   />
                 </div>
                 <div className="mb-4">
-
-                  <textarea placeholder='Message Here' className='shadow appearance-none border rounded-xl w-full py-4 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline' rows="6" cols="50"></textarea>
+                {(error.content!=="valid" && error.content==true)?<span className='text-[#FF0000]'>Description is mandatory</span>:null}                  
+                <textarea placeholder='Message Here' className='shadow appearance-none border rounded-xl w-full py-4 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline' rows="6" cols="50" onChange={(e)=>inputHandler(e)} onBlur={(e)=>errorHandler(e)} name="content" value={data.content}></textarea>
                 </div>
 
+               
                 <button
-                  className="bg-[#e55b02] hover:bg[#e55b02] text-white font-bold py-3 px-14 rounded-xl focus:outline-none focus:shadow-outline" style={{ borderRadius: "30px" }}
-                  type="submit"
-                >
-                  Submit
-                </button>
-              </form>
+                className="bg-[#e55b02] hover:bg[#e55b02] text-white font-bold py-3 px-14 rounded-xl focus:outline-none focus:shadow-outline" style={{ borderRadius: "30px" }}
+                onClick={submit}
+              >
+                Submit
+              </button>
             </div>
           </ul>
           

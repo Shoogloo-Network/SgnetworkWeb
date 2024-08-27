@@ -8,7 +8,7 @@ const LogIn = () => {
     <div>
       <Header />
       <BackgroundVideo imgUrl="/assets/header-banner.png" />
-      <Footer btnText="Contact Us" />
+      <Footer btnText="Subscribe" />
     </div>
   )
 }

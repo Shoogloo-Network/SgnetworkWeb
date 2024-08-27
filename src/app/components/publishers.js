@@ -62,7 +62,7 @@ const Publishers = () => {
       repeat: Infinity,
     });
     return controls.stop;
-  }, []);
+  },);
 
   return (
     <>
@@ -75,7 +75,7 @@ const Publishers = () => {
         alt=""
       />
       <div className="w-full sm:w-1/2 sm:leading-7">
-        <h2 className="text-[28px] sm:text-5xl font-light w-3/4 mb-3 leading-[32px] sm: leading-[4rem] min-h-20 sm:min-h-32">
+        <h2 className="text-[28px] sm:text-5xl font-light w-3/4 mb-3 leading-[4rem] sm:leading-[4rem] min-h-20 sm:min-h-32">
           Solutions for <br />
           {displayText.length == 0 ? null : (
             <motion.span className="font-extrabold inline-block">{displayText}</motion.span>
@@ -171,13 +171,13 @@ const Publishers = () => {
     </div>
     <div className="sm:bg-transparent bg-[#FFF8F1] pb-10 sm:pb-0">
       <div className="flex items-center bg-[#fff]">
-          <div className="w-[620px] h-[130px] sm:h-[160px] flex items-center justify-center rounded-tr-[30px] rounded-br-[30px] p-4 bg-[#311C17]">
-            <p className="font-gilroy text-[17px] sm:text-4xl text-white font-extrabold leading-[21px] sm:leading-10 text-center flex items-center justify-center mb-3 opacity-50">
+          <div className="w-[30%] sm:w-[25%] h-[130px] sm:h-[160px] flex items-center justify-center rounded-tr-[30px] rounded-br-[30px] p-4 pl-3 bg-[#311C17]">
+            <p className="font-gilroy text-[17px] sm:text-4xl text-white font-extrabold leading-[21px] sm:leading-10 text-center inline-flex items-center justify-center mb-3 opacity-50">
               Our Publishers
             </p>
           </div>
 
-          <div className="imageslide-container items-center">
+          <div className="imageslide-container items-center w-[70%]">
             {images.map((image, index) => (
               <div
                 key={index}

@@ -12,7 +12,7 @@ export default function Home() {
   return (
     <main className="min-h-screen flex-col items-center justify-center">
       <Header />
-      <BackgroundVideo imgUrl="/assets/header-banner.png"  imgmobileUrl="/assets/homemobilebanner.png"/>
+      <BackgroundVideo imgUrl="/assets/homebanner.png"  imgmobileUrl="/assets/homebanner.png"/>
       <Services />
       <WhatisLorem />
       <EyesOnYou />

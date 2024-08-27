@@ -11,7 +11,7 @@ const Header = () => {
   const [isHover, setIsHover] = useState(false);
   const [scrollPosition, setScrollPosition] = useState(0);
   const [screenWidth, setScreenWidth] = useState(0);
-  const [headerBackground, setHeaderBackground] = useState("#00000061");
+  const [headerBackground, setHeaderBackground] = useState("#01382f");
   const [hemburgerBg, setHemburgerBg] = useState("#D9D9D9");
   const router = useRouter();
   const pathName = usePathname();
@@ -22,12 +22,11 @@ const Header = () => {
       setScreenWidth(windowWidth);
       const position = window.scrollY;
       setScrollPosition(position);
-      console.log('position',position);
       if (position > window.innerHeight) {
-        setHeaderBackground("#FFF8F1");
+        setHeaderBackground("#01382f");
         setHemburgerBg("#ffffff")
       } else {
-        setHeaderBackground("#00000061");
+        setHeaderBackground("#01382f");
         setHemburgerBg("#D9D9D9")
       }
     };
@@ -57,20 +56,34 @@ const Header = () => {
   };
 
   return (
-    <header style={{background:headerBackground}} className={`fixed top-0 left-0 right-0 text-white p-4 flex justify-between items-center z-[100] sm:h-[90px] h-[65px] transition-all duration-300 ease-in-out`}>
+    <header style={{background:headerBackground}} className={`fixed top-0 left-0 right-0 text-white px-2 sm:p-4 flex justify-between items-center z-[100] sm:h-[90px] h-[65px] transition-all duration-300 ease-in-out`}>
       <div className="flex items-center z-[100]">
-        <Link href="/" className="sm:w-[260px] w-[200px] sm:h-[80px] h-[50px] mr-2">
-          <Image src="/logonetwork.png" alt="logo" width={250} height={70} className="sm:w-[250px] sm:h-[90px] w-[130px] h-[50px]"/>
+        <Link href="/" className="sm:w-[280px] w-[200px] sm:h-[80px] h-[50px] mr-2">
+          <Image src="/headerLogo.png" alt="logo" width={260} height={70} className="sm:w-[280px] sm:h-[90px] w-[180px] h-[55px]"/>
         </Link>
       </div>
-      <div className="z-[100]">
+      <div className="z-[100] flex items-center justify-between">
+      {!isMenuOpen && <>
+        <Link href="https://shoogloo.trackier.io/" target="_blank" className={`text-center rounded-full w-[80px] sm:w-[130px] sm:text-[20px] leading-[normal] tracking-normal py-2 sm:p-2 z-50 cursor-pointer orange-btn text-sm sm:text-lg uppercase  border-orange-600 hidden sm:block`} >
+          <span className="font-semibold uppercase">
+          Login
+          </span>
+          <span className="bg"></span>
+        </Link>
+        <Link href="https://shoogloo.trackier.io/register.html" target="_blank" className={`text-center rounded-full w-[90px] sm:w-[130px] sm:text-[20px] leading-[normal] tracking-normal py-2 sm:p-2 z-50 cursor-pointer orange-btn text-sm sm:text-lg uppercase border-orange-600 sm:mx-10 mx-2 sm:mr-12 hidden sm:block`} >
+          <span className="font-semibold uppercase">
+          Register
+          </span>
+          <span className="bg"></span>
+        </Link>
+      </>}
         <button
           onClick={toggleMenu}
           onMouseEnter={handleHover}
           onMouseLeave={handleHover1}
-          className="text-white focus:outline-none flex items-center justify-center focus:text-white"
+          className="text-white focus:outline-none flex items-center justify-center focus:text-white border-opacity-50 border-orange-300"
         >
-          <div className="w-[50px] sm:w-[70px] h-[50px] sm:h-[70px] bg-[#342929] bg-opacity-20 rounded-full flex items-center justify-center">
+          <div className="w-[50px] sm:w-[70px] h-[50px] sm:h-[70px] bg-[#342929] bg-opacity-20 rounded-full flex items-center justify-center border border-opacity-30 border-white">
             {!isMenuOpen ? (
               <>
                 <svg
@@ -135,17 +148,23 @@ const Header = () => {
             className="relative p-10 pl-7 top-5 sm:-top-4 self-center z-10 text-white"
           >
             <ul className="flex flex-col items-center space-y-4">
-              <li>
-                <Link href="https://shoogloo.trackier.io/" target="_blank" className="font-Gilroy text-3xl sm:text-4xl font-extrabold leading-[3.5rem] sm:leading-loose opacity-50 hover:opacity-100" > Log In </Link>
+            <li>
+                <Link href="https://shoogloo.trackier.io/" target="_blank" className="font-Gilroy text-3xl sm:text-4xl font-extrabold leading-[3.5rem] sm:leading-loose opacity-50 hover:opacity-100" > LogIn </Link>
               </li>
               <li>
-                <Link href="/pages/advertisers" className="font-Gilroy text-3xl sm:text-4xl font-extrabold leading-[3.5rem] sm:leading-loose opacity-50 hover:opacity-100" > Advertisers </Link>
+                <Link href="https://shoogloo.trackier.io/register.html" target="_blank" className="font-Gilroy text-3xl sm:text-4xl font-extrabold leading-[3.5rem] sm:leading-loose opacity-50 hover:opacity-100" > Register </Link>
               </li>
               <li>
                 <Link href="/pages/publishers" className="font-Gilroy text-3xl sm:text-4xl font-extrabold leading-[3.5rem] sm:leading-loose opacity-50 hover:opacity-100" > Publishers </Link>
               </li>
               <li>
+                <Link href="/pages/advertisers" className="font-Gilroy text-3xl sm:text-4xl font-extrabold leading-[3.5rem] sm:leading-loose opacity-50 hover:opacity-100" > Advertisers </Link>
+              </li>
+              <li>
                 <Link href="/pages/contact" className="font-Gilroy text-3xl sm:text-4xl font-extrabold leading-[3.5rem] sm:leading-loose opacity-50 hover:opacity-100" > Contact Us </Link>
+              </li>
+              <li>
+                <Link href="/pages/about" className="font-Gilroy text-3xl sm:text-4xl font-extrabold leading-[3.5rem] sm:leading-loose opacity-50 hover:opacity-100" > About Us </Link>
               </li>
             </ul>
           </motion.div>
@@ -174,13 +193,16 @@ const Header = () => {
           >
             <ul onClick={(e) => {handleRouteChange(e)}} className="flex flex-col items-center space-y-4">
               <li>
-                <Link href="https://shoogloo.trackier.io/" target="_blank" className="font-Gilroy text-3xl sm:text-4xl font-extrabold leading-[3.5rem] sm:leading-loose opacity-50 hover:opacity-100" > Log In </Link>
+                <Link href="https://shoogloo.trackier.io/" target="_blank" className="font-Gilroy text-3xl sm:text-4xl font-extrabold leading-[3.5rem] sm:leading-loose opacity-50 hover:opacity-100" > LogIn </Link>
               </li>
               <li>
-                <Link href="/pages/advertisers" className="font-Gilroy text-3xl sm:text-4xl font-extrabold leading-[3.5rem] sm:leading-loose opacity-50 hover:opacity-100" > Advertisers </Link>
+                <Link href="https://shoogloo.trackier.io/register.html" target="_blank" className="font-Gilroy text-3xl sm:text-4xl font-extrabold leading-[3.5rem] sm:leading-loose opacity-50 hover:opacity-100" > Register </Link>
               </li>
               <li>
                 <Link href="/pages/publishers" className="font-Gilroy text-3xl sm:text-4xl font-extrabold leading-[3.5rem] sm:leading-loose opacity-50 hover:opacity-100" > Publishers </Link>
+              </li>
+              <li>
+                <Link href="/pages/advertisers" className="font-Gilroy text-3xl sm:text-4xl font-extrabold leading-[3.5rem] sm:leading-loose opacity-50 hover:opacity-100" > Advertisers </Link>
               </li>
               <li>
                 <Link href="/pages/contact" className="font-Gilroy text-3xl sm:text-4xl font-extrabold leading-[3.5rem] sm:leading-loose opacity-50 hover:opacity-100" > Contact Us </Link>

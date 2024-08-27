@@ -8,10 +8,14 @@ import { playpause } from "../../../public/assets/images";
 const BackgroundVideo = ({imgUrl,imgmobileUrl}) => {
   return (
     <>
-      <div className="relative">
+      <div className="relative mt-16 sm:mt-0">
       {/* <Image src={imgUrl} alt="image" width={1200} height={800} layout="responsive" /> */}
-      <img src={imgUrl} alt="Image" className="w-full h-auto sm:h-[100vh] object-cover sm:block hidden"/>
-      <img src={imgmobileUrl} alt="Image" className="w-full h-auto sm:h-[100vh] object-cover sm:hidden block"/>
+      <Image src={imgUrl} alt="image" width={1200} height={800} layout="responsive" className="w-full h-auto object-cover sm:block hidden" />
+      {imgmobileUrl && 
+      <Image src={imgmobileUrl} alt="mobileimage" width={1200} height={800} layout="responsive" className="w-full h-auto sm:h-[100vh] object-cover sm:hidden block" />
+      }
+      {/* <img src={imgUrl} alt="Image" className="w-full h-auto object-cover sm:block hidden"/>
+      <img src={imgmobileUrl} alt="Image" className="w-full h-auto sm:h-[100vh] object-cover sm:hidden block"/> */}
 
         {/*<video autoPlay muted loop className="w-full h-[500px] sm:h-full object-cover">
           <source src="/assets/bgvideo.mp4" type="video/mp4" />

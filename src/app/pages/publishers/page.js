@@ -13,7 +13,7 @@ const Publishers = () => {
       <BackgroundVideo imgUrl="/assets/Publishersbanner.png"  imgmobileUrl="/assets/Publishersmobilebanneranner.png"/>
       <PublisherServices />
       <TextButton />
-      <Footer btnText="Contact Us" urlLink="/pages/contact" />
+      <Footer btnText="Subscribe" urlLink="/pages/contact" />
     </div>
   );
 };
