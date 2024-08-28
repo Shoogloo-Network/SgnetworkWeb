@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import axios from "axios";
+import { ToastContainer, toast } from 'react-toastify';
 
 const Footer = ({ btnText, urlLink }) => {
   const [email, setEmail] = useState("");
@@ -25,12 +26,20 @@ const Footer = ({ btnText, urlLink }) => {
       setError("");
       setLoading(true);
       const response = await axios.post(
-        "https://api.shoogloonetwork.com/subscription/create",
+        "http://localhost:8080/user/save",
         {
           email: email,
-          email_marketing: true,
+        //  email_marketing: true,
         }
       );
+      console.log(response.status);
+      if(response.status!=200){
+        toast.error(" Already exist");
+        setEmail("");
+      }
+      else{
+        toast.success("Subscription successful")
+      }
 
       console.log("Subscription successful", response.data);
       setEmail("");
@@ -49,6 +58,8 @@ const Footer = ({ btnText, urlLink }) => {
   };
 
   return (
+    <>
+    <ToastContainer />
     <footer className="w-100 bg-[#FFF8F1] text-black py-2 px-3 md:p-12 sm:p-12 sm:py-8">
       <div className="container mx-auto flex flex-col sm:flex-row justify-between m-10 mb-0">
         <div className="flex items-start justify-center sm:justify-start flex-col  border-b sm:border-b-0">
@@ -252,6 +263,7 @@ const Footer = ({ btnText, urlLink }) => {
         </div>
       </div>
     </footer>
+    </>
   );
 };
 

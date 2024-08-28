@@ -97,7 +97,7 @@ const submit=async()=>{
   
   if(firstname!== '' && lastname!== '' && email!== '' &&  email.includes('@') && phone!== '' && content!==''){
     const result=await axios({
-      url:`https://api.shoogloonetwork.com/contact/create`,
+      url:`http://localhost:8080/user/contact`,
       method:"POST",
       data:data,
       header:{
